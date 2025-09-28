@@ -5,21 +5,40 @@ const session = require("express-session");
 const path = require("path");
 require("dotenv").config();
 
+// Set default environment variables if not provided
 process.env.JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-for-jwt";
 
 const app = express();
 
+// Static Folder for Uploaded Images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log(`Static files served from ${path.join(__dirname, 'uploads')}`);
+
 // Database Connection
 const connectdb = require("./db/connectDb");
-connectdb();
+connectdb(); // Connect to MongoDB
 
-// Middleware
+// CORS Configuration
+const allowedOrigins = [
+  "https://blog-app-frontend-qu9h.onrender.com",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: "https://blog-app-frontend-qu9h.onrender.com",
+    origin: function (origin, callback) {
+      // Allow requests with no origin like mobile apps or curl requests
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,7 +48,11 @@ app.use(
     secret: process.env.SESSION_SECRET || "yoursecretkey",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
+    cookie: {
+      secure: false, // Should be true in production with HTTPS
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
   })
 );
 
@@ -37,14 +60,10 @@ app.use(
 const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
-const { getImage } = require("./controllers/imagecontroller");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api", commentRoutes);
-
-// Endpoint to serve images from GridFS
-app.get("/image/:filename", getImage);
 
 // Default Route
 app.get("/", (req, res) => {
@@ -56,6 +75,3 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
 });
-
-// Export upload for use in routes
-module.exports = { app };

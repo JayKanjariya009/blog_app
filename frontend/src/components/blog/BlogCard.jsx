@@ -27,11 +27,11 @@ const BlogCard = ({ blog }) => {
     
     // If URL starts with /, append it to the base URL
     if (url.startsWith('/')) {
-      return `https://blog-app-hh3f.onrender.com/${url}`;
+      return `http://localhost:3001${url}`;
     }
     
     // Otherwise, assume it's a relative path and prepend the base URL
-    return `https://blog-app-hh3f.onrender.com//${url}`;
+    return `http://localhost:3001/${url}`;
   };
 
   const handleReadMore = (e) => {
