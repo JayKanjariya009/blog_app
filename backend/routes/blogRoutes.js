@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createBlog, updateBlog, getAllBlogs, getBlogbyId, deleteBlog } = require("../controllers/blogController");
+const { createBlog, updateBlog, getAllBlogs, getBlogbyId, deleteBlog } = require("../Controllers/blogController");
 const upload = require("../utils/gridFsUpload"); // Use upload from GridFS
 const { verifyToken } = require("../middleware/authMiddleware");
 
