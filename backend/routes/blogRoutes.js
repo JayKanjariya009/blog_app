@@ -1,30 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const upload = require('../middleware/uploadMiddleware');
-const { verifyToken } = require('../middleware/authMiddleware');
-const { isAdmin } = require('../middleware/adminMiddleware');
+const { createBlog, updateBlog, getAllBlogs, getBlogbyId, deleteBlog } = require("../controllers/blogController");
+const { upload } = require("../server"); // Import upload from server.js or wherever you exported it
+const authenticate = require("../middleware/authenticate"); // Your authentication middleware
 
-const {
-  getAllBlogs,
-  getBlogbyId,
-  createBlog,
-  updateBlog,
-  deleteBlog,
-} = require('../controllers/blogController');
-
-// 📌 Public Route – Get all blogs
-router.get('/', getAllBlogs);
-
-// 📌 Public Route – Get blog by ID
-router.get('/:id', getBlogbyId);
-
-// 🛡️ Admin Only – Create a new blog with image upload
-router.post('/', verifyToken, isAdmin, upload.single('image'), createBlog);
-
-// 🛡️ Admin Only – Update blog with optional new image
-router.put('/:id', verifyToken, isAdmin, upload.single('image'), updateBlog);
-
-// 🛡️ Admin Only – Delete blog by ID
-router.delete('/:id', verifyToken, isAdmin, deleteBlog);
+// Create a blog with image upload
+router.post("/", authenticate, upload.single("image"), createBlog);
+// Update blog route with optional image update
+router.put("/:id", authenticate, upload.single("image"), updateBlog);
+// Other routes
+router.get("/", getAllBlogs);
+router.get("/:id", getBlogbyId);
+router.delete("/:id", authenticate, deleteBlog);
 
 module.exports = router;
