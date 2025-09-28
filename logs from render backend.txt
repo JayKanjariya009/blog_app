@@ -1,0 +1,100 @@
+2025-09-28T12:07:11.613640716Z   }
+2025-09-28T12:07:11.613643126Z }
+2025-09-28T12:08:48.611246451Z ==> Running 'node server.js'
+2025-09-28T12:08:52.401558201Z Warning: connect.session() MemoryStore is not
+2025-09-28T12:08:52.401587921Z designed for a production environment, as it will leak
+2025-09-28T12:08:52.401591191Z memory, and will not scale past a single process.
+2025-09-28T12:08:52.404689994Z (node:53) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+2025-09-28T12:08:52.404701604Z (Use `node --trace-warnings ...` to show where the warning was created)
+2025-09-28T12:08:52.404704534Z (node:53) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+2025-09-28T12:08:52.405008408Z 🚀 Server is running on port 3001
+2025-09-28T12:09:22.710883884Z Error connecting to DB MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+2025-09-28T12:09:22.710920885Z     at _handleConnectionErrors (/opt/render/project/src/backend/node_modules/mongoose/lib/connection.js:1165:11)
+2025-09-28T12:09:22.710926375Z     at NativeConnection.openUri (/opt/render/project/src/backend/node_modules/mongoose/lib/connection.js:1096:11)
+2025-09-28T12:09:22.710931165Z     at async connectdb (/opt/render/project/src/backend/db/connectDb.js:8:5) {
+2025-09-28T12:09:22.710935575Z   errorLabelSet: Set(0) {},
+2025-09-28T12:09:22.710940585Z   reason: TopologyDescription {
+2025-09-28T12:09:22.710945535Z     type: 'ReplicaSetNoPrimary',
+2025-09-28T12:09:22.710948935Z     servers: Map(3) {
+2025-09-28T12:09:22.710951755Z       'ac-praiqlt-shard-00-01.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:09:22.710955905Z       'ac-praiqlt-shard-00-02.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:09:22.710960346Z       'ac-praiqlt-shard-00-00.2c5h49r.mongodb.net:27017' => [ServerDescription]
+2025-09-28T12:09:22.710964486Z     },
+2025-09-28T12:09:22.710968715Z     stale: false,
+2025-09-28T12:09:22.710973186Z     compatible: true,
+2025-09-28T12:09:22.710977476Z     heartbeatFrequencyMS: 10000,
+2025-09-28T12:09:22.710981446Z     localThresholdMS: 15,
+2025-09-28T12:09:22.710985716Z     setName: 'atlas-39msah-shard-0',
+2025-09-28T12:09:22.710990036Z     maxElectionId: null,
+2025-09-28T12:09:22.710994636Z     maxSetVersion: null,
+2025-09-28T12:09:22.710997466Z     commonWireVersion: 0,
+2025-09-28T12:09:22.711000256Z     logicalSessionTimeoutMinutes: null
+2025-09-28T12:09:22.711002956Z   },
+2025-09-28T12:09:22.711005926Z   code: undefined,
+2025-09-28T12:09:22.711008696Z   cause: TopologyDescription {
+2025-09-28T12:09:22.711011406Z     type: 'ReplicaSetNoPrimary',
+2025-09-28T12:09:22.711014876Z     servers: Map(3) {
+2025-09-28T12:09:22.711019276Z       'ac-praiqlt-shard-00-01.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:09:22.711023566Z       'ac-praiqlt-shard-00-02.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:09:22.711027446Z       'ac-praiqlt-shard-00-00.2c5h49r.mongodb.net:27017' => [ServerDescription]
+2025-09-28T12:09:22.711031676Z     },
+2025-09-28T12:09:22.711035936Z     stale: false,
+2025-09-28T12:09:22.711040687Z     compatible: true,
+2025-09-28T12:09:22.711045317Z     heartbeatFrequencyMS: 10000,
+2025-09-28T12:09:22.711049507Z     localThresholdMS: 15,
+2025-09-28T12:09:22.711072137Z     setName: 'atlas-39msah-shard-0',
+2025-09-28T12:09:22.711075877Z     maxElectionId: null,
+2025-09-28T12:09:22.711078327Z     maxSetVersion: null,
+2025-09-28T12:09:22.711080607Z     commonWireVersion: 0,
+2025-09-28T12:09:22.711082937Z     logicalSessionTimeoutMinutes: null
+2025-09-28T12:09:22.711085337Z   }
+2025-09-28T12:09:22.711087927Z }
+2025-09-28T12:12:11.819493925Z ==> Running 'node server.js'
+2025-09-28T12:12:15.425678918Z Warning: connect.session() MemoryStore is not
+2025-09-28T12:12:15.425706499Z designed for a production environment, as it will leak
+2025-09-28T12:12:15.425711308Z memory, and will not scale past a single process.
+2025-09-28T12:12:15.4287389Z (node:53) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+2025-09-28T12:12:15.42875289Z (Use `node --trace-warnings ...` to show where the warning was created)
+2025-09-28T12:12:15.428768841Z (node:53) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+2025-09-28T12:12:15.429117666Z 🚀 Server is running on port 3001
+2025-09-28T12:12:45.727515175Z Error connecting to DB MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+2025-09-28T12:12:45.727536205Z     at _handleConnectionErrors (/opt/render/project/src/backend/node_modules/mongoose/lib/connection.js:1165:11)
+2025-09-28T12:12:45.727539985Z     at NativeConnection.openUri (/opt/render/project/src/backend/node_modules/mongoose/lib/connection.js:1096:11)
+2025-09-28T12:12:45.727543956Z     at async connectdb (/opt/render/project/src/backend/db/connectDb.js:8:5) {
+2025-09-28T12:12:45.727547836Z   errorLabelSet: Set(0) {},
+2025-09-28T12:12:45.727552556Z   reason: TopologyDescription {
+2025-09-28T12:12:45.727557256Z     type: 'ReplicaSetNoPrimary',
+2025-09-28T12:12:45.727561726Z     servers: Map(3) {
+2025-09-28T12:12:45.727566236Z       'ac-praiqlt-shard-00-01.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:12:45.727570706Z       'ac-praiqlt-shard-00-02.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:12:45.727574986Z       'ac-praiqlt-shard-00-00.2c5h49r.mongodb.net:27017' => [ServerDescription]
+2025-09-28T12:12:45.727579086Z     },
+2025-09-28T12:12:45.727583076Z     stale: false,
+2025-09-28T12:12:45.727587126Z     compatible: true,
+2025-09-28T12:12:45.727591186Z     heartbeatFrequencyMS: 10000,
+2025-09-28T12:12:45.727595256Z     localThresholdMS: 15,
+2025-09-28T12:12:45.727599856Z     setName: 'atlas-39msah-shard-0',
+2025-09-28T12:12:45.727604246Z     maxElectionId: null,
+2025-09-28T12:12:45.727608436Z     maxSetVersion: null,
+2025-09-28T12:12:45.727612746Z     commonWireVersion: 0,
+2025-09-28T12:12:45.727616826Z     logicalSessionTimeoutMinutes: null
+2025-09-28T12:12:45.727620977Z   },
+2025-09-28T12:12:45.727625347Z   code: undefined,
+2025-09-28T12:12:45.727629287Z   cause: TopologyDescription {
+2025-09-28T12:12:45.727633457Z     type: 'ReplicaSetNoPrimary',
+2025-09-28T12:12:45.727637587Z     servers: Map(3) {
+2025-09-28T12:12:45.727641857Z       'ac-praiqlt-shard-00-01.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:12:45.727645867Z       'ac-praiqlt-shard-00-02.2c5h49r.mongodb.net:27017' => [ServerDescription],
+2025-09-28T12:12:45.727649767Z       'ac-praiqlt-shard-00-00.2c5h49r.mongodb.net:27017' => [ServerDescription]
+2025-09-28T12:12:45.727653857Z     },
+2025-09-28T12:12:45.727657967Z     stale: false,
+2025-09-28T12:12:45.727662157Z     compatible: true,
+2025-09-28T12:12:45.727666557Z     heartbeatFrequencyMS: 10000,
+2025-09-28T12:12:45.727670887Z     localThresholdMS: 15,
+2025-09-28T12:12:45.727675127Z     setName: 'atlas-39msah-shard-0',
+2025-09-28T12:12:45.727690627Z     maxElectionId: null,
+2025-09-28T12:12:45.727693658Z     maxSetVersion: null,
+2025-09-28T12:12:45.727696627Z     commonWireVersion: 0,
+2025-09-28T12:12:45.727698718Z     logicalSessionTimeoutMinutes: null
+2025-09-28T12:12:45.727700428Z   }
+2025-09-28T12:12:45.727702118Z }
