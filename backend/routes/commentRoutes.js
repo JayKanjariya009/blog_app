@@ -5,7 +5,7 @@ const {
   getCommentsByBlogId,
   createComment,
   deleteComment
-} = require('../Controllers/commentController');
+} = require('../controllers/commentController');
 
 // Get all comments for a blog
 router.get('/blogs/:blogId/comments', getCommentsByBlogId);
