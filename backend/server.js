@@ -37,7 +37,7 @@ app.use(
 const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
-const { getImage } = require("./controllers/imageController");
+const { getImage } = require("./controllers/imagecontroller");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
