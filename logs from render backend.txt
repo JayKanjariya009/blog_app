@@ -1,37 +1,28 @@
-PS C:\Users\jayka\Desktop\Project\blog_app\backend> npm run start
-
-> backend@1.0.0 start
-> nodemon server.js
-
-[nodemon] 3.1.10
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): *.*
-[nodemon] watching extensions: js,mjs,cjs,json
-[nodemon] starting `node server.js`
-node:internal/modules/cjs/loader:1404
-  throw err;
-  ^
-
-Error: Cannot find module '../middleware/authenticate'
-Require stack:
-- C:\Users\jayka\Desktop\Project\blog_app\backend\routes\blogRoutes.js
-- C:\Users\jayka\Desktop\Project\blog_app\backend\server.js
-    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
-    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
-    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
-    at Function._load (node:internal/modules/cjs/loader:1211:37)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
-    at Module.require (node:internal/modules/cjs/loader:1487:12)
-    at require (node:internal/modules/helpers:135:16)
-    at Object.<anonymous> (C:\Users\jayka\Desktop\Project\blog_app\backend\routes\blogRoutes.js:5:22)
-    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    'C:\\Users\\jayka\\Desktop\\Project\\blog_app\\backend\\routes\\blogRoutes.js', 
-    'C:\\Users\\jayka\\Desktop\\Project\\blog_app\\backend\\server.js'
-  ]
-}
-
-Node.js v22.17.1
-[nodemon] app crashed - waiting for file changes before starting...
+Cloning from https://github.com/JayKanjariya009/blog_app
+==> Checking out commit cf0f0c07166196b4b527b05c7fbfc2b10081d3bd in branch main
+==> Using Node.js version 22.16.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Running build command 'npm install'...
+npm error code ERESOLVE
+npm error ERESOLVE unable to resolve dependency tree
+npm error
+npm error While resolving: backend@1.0.0
+npm error Found: multer@2.0.2
+npm error node_modules/multer
+npm error   multer@"^2.0.2" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error peer multer@"^1.4.2" from multer-gridfs-storage@5.0.2
+npm error node_modules/multer-gridfs-storage
+npm error   multer-gridfs-storage@"^5.0.2" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error /opt/render/.cache/_logs/2025-09-28T13_40_10_947Z-eresolve-report.txt
+npm error A complete log of this run can be found in: /opt/render/.cache/_logs/2025-09-28T13_40_10_947Z-debug-0.log
+==> Build failed 😞
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

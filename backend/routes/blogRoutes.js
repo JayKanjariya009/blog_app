@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { createBlog, updateBlog, getAllBlogs, getBlogbyId, deleteBlog } = require("../controllers/blogController");
-const upload = require("../utils/gridFsUpload"); // Use upload from the new module
-const { verifyToken } = require("../middleware/authMiddleware"); // Use token verification
+const upload = require("../utils/gridFsUpload"); // Use upload from GridFS
+const { verifyToken } = require("../middleware/authMiddleware");
 
 // Create a blog with image upload
 router.post("/", verifyToken, upload.single("image"), createBlog);
