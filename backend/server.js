@@ -31,8 +31,8 @@ const commentRoutes = require("./routes/commentRoutes");
 
 
 // filepath: c:\Users\jayka\Desktop\Project\blog_app\backend\server.js
-const express = require("express");
-const cors = require("cors");
+// const express = require("express");
+// const cors = require("cors");
 // const app = express();
 
 // Configure CORS to allow your frontend origin and credentials
