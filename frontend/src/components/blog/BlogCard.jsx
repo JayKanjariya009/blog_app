@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { constructImageUrl } from '../../utils/api';
 
 const BlogCard = ({ blog }) => {
   const { user } = useContext(AuthContext);
@@ -19,19 +20,7 @@ const BlogCard = ({ blog }) => {
   // Format image URL if it exists
   const getImageUrl = (url) => {
     if (!url) return defaultImage;
-    
-    // If URL already starts with http:// or https://, use it as is
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    
-    // If URL starts with /, append it to the base URL
-    if (url.startsWith('/')) {
-      return `https://blog-app-hh3f.onrender.com${url}`;
-    }
-    
-    // Otherwise, assume it's a relative path and prepend the base URL
-    return `https://blog-app-hh3f.onrender.com/${url}`;
+    return constructImageUrl(url);
   };
 
   const handleReadMore = (e) => {
@@ -49,6 +38,9 @@ const BlogCard = ({ blog }) => {
           src={getImageUrl(blog.imageUrl)} 
           alt={blog.title} 
           className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={(e) => {
+            e.target.src = defaultImage;
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         

@@ -10,10 +10,6 @@ process.env.JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-for-jwt";
 
 const app = express();
 
-// Static Folder for Uploaded Images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-console.log(`Static files served from ${path.join(__dirname, 'uploads')}`);
-
 // Database Connection
 const connectdb = require("./db/connectDb");
 connectdb(); // Connect to MongoDB
@@ -42,6 +38,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Static Folder for Uploaded Images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log(`Static files served from ${path.join(__dirname, 'uploads')}`);
+
 // Session Setup
 app.use(
   session({
@@ -68,6 +68,23 @@ app.use("/api", commentRoutes);
 // Default Route
 app.get("/", (req, res) => {
   res.send("Welcome to my Blogs");
+});
+
+// Test route to check uploads directory
+app.get("/test-uploads", (req, res) => {
+  const fs = require('fs');
+  const uploadsPath = path.join(__dirname, 'uploads');
+  try {
+    const files = fs.readdirSync(uploadsPath);
+    res.json({ 
+      uploadsPath, 
+      files,
+      staticRoute: '/uploads',
+      sampleUrl: files.length > 0 ? `/uploads/${files[0]}` : 'No files found'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Start Server

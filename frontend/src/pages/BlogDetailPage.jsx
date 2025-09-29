@@ -1,26 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { fetchBlogById, deleteBlog } from '../utils/api';
+import { fetchBlogById, deleteBlog, constructImageUrl } from '../utils/api';
 import { AuthContext } from '../context/AuthContext';
 import CommentSection from '../components/comment/CommentSection';
 
-// Helper function to format image URLs
-const formatImageUrl = (url) => {
-  if (!url) return '';
-  
-  // If URL already starts with http:// or https://, use it as is
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return url;
-  }
-  
-  // If URL starts with /, append it to the base URL
-  if (url.startsWith('/')) {
-    return `https://blog-app-hh3f.onrender.com${url}`;
-  }
-  
-  // Otherwise, assume it's a relative path and prepend the base URL
-  return `https://blog-app-hh3f.onrender.com/${url}`;
-};
+
 
 const BlogDetailPage = () => {
   const { id } = useParams();
@@ -125,9 +109,12 @@ const BlogDetailPage = () => {
       {blog.imageUrl && (
         <div className="mb-8">
           <img 
-            src={formatImageUrl(blog.imageUrl)} 
+            src={constructImageUrl(blog.imageUrl)} 
             alt={blog.title} 
             className="w-full h-auto rounded-lg shadow-md"
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
           />
         </div>
       )}
