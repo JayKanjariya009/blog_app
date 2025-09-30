@@ -48,7 +48,7 @@ const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth",  authRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api", commentRoutes);
 
