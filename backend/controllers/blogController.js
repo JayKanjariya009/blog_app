@@ -51,9 +51,14 @@ const createBlog = async (req, res) => {
         const { title, content } = req.body;
         let imageUrl = null;
         
+        console.log('Creating blog with file:', req.file ? 'Yes' : 'No');
+        console.log('ImgBB API Key exists:', process.env.IMGBB_API_KEY ? 'Yes' : 'No');
+        
         if (req.file) {
+            console.log('Uploading to ImgBB...');
             const imgbbUrl = await uploadToImgBB(req.file.path, process.env.IMGBB_API_KEY);
             imageUrl = imgbbUrl;
+            console.log('ImgBB URL:', imageUrl);
             
             // Delete local file after upload
             fs.unlinkSync(req.file.path);
@@ -76,10 +81,11 @@ const createBlog = async (req, res) => {
             blog: newBlog,
         });
     } catch (error) {
-        console.log("Error creating blog", error);
+        console.error("Error creating blog:", error.message);
+        console.error("Full error:", error);
         res.status(500).json({
             success: false,
-            error: "Internal Server Error",
+            error: error.message || "Internal Server Error",
         });
     }
 };
