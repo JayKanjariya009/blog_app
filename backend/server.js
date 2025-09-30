@@ -14,23 +14,10 @@ const app = express();
 const connectdb = require("./db/connectDb");
 connectdb(); // Connect to MongoDB
 
-// CORS Configuration
-const allowedOrigins = [
-  "https://blog-app-frontend-qu9h.onrender.com",
-  "http://localhost:3000",
-];
-
+// CORS Configuration - Allow all origins temporarily
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin like mobile apps or curl requests
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true,
     credentials: true,
   })
 );
