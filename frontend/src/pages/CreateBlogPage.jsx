@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createBlog } from '../utils/api';
+import RichTextEditor from '../components/common/RichTextEditor';
 
 const CreateBlogPage = () => {
   const [title, setTitle] = useState('');
@@ -67,16 +68,13 @@ const CreateBlogPage = () => {
         </div>
         
         <div className="mb-6">
-          <label htmlFor="content" className="block text-gray-700 mb-2">
+          <label className="block text-theme mb-2 font-medium">
             Blog Content
           </label>
-          <textarea
-            id="content"
+          <RichTextEditor
             value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[200px]"
+            onChange={setContent}
             placeholder="Write your blog content here..."
-            required
           />
         </div>
         

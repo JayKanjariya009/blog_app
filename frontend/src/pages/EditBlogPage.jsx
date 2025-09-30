@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { fetchBlogById, updateBlog } from '../utils/api';
 import { AuthContext } from '../context/AuthContext';
+import RichTextEditor from '../components/common/RichTextEditor';
 
 // Helper function to format image URLs
 const formatImageUrl = (url) => {
@@ -101,17 +100,7 @@ const EditBlogPage = () => {
     }
   };
 
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      ['blockquote', 'code-block'],
-      [{ 'align': [] }],
-      ['link', 'image'],
-      ['clean']
-    ],
-  };
+
 
   if (loading) {
     return (
@@ -177,13 +166,11 @@ const EditBlogPage = () => {
         </div>
         
         <div>
-          <label htmlFor="content" className="block text-gray-700 mb-2 font-medium">Blog Content</label>
-          <ReactQuill
-            theme="snow"
+          <label className="block text-theme mb-2 font-medium">Blog Content</label>
+          <RichTextEditor
             value={content}
             onChange={setContent}
-            modules={modules}
-            className="h-64 mb-12"
+            placeholder="Write your blog content here..."
           />
         </div>
         

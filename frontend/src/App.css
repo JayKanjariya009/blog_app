@@ -183,6 +183,66 @@ body {
   border: 0;
 }
 
+/* Rich Text Editor Styles */
+.rich-text-editor .ql-toolbar {
+  border-top: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: #f9fafb;
+}
+
+.dark .rich-text-editor .ql-toolbar {
+  border-color: #374151;
+  background: #1f2937;
+}
+
+.rich-text-editor .ql-container {
+  border-bottom: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  min-height: 200px;
+}
+
+.dark .rich-text-editor .ql-container {
+  border-color: #374151;
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+.rich-text-editor .ql-editor {
+  min-height: 200px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.dark .rich-text-editor .ql-editor {
+  color: #f9fafb;
+}
+
+.rich-text-editor .ql-tooltip {
+  z-index: 1000;
+}
+
+/* Toolbar button tooltips */
+.ql-toolbar button:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
 /* Print styles */
 @media print {
   .no-print {
