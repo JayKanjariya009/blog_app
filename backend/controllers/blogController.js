@@ -13,10 +13,8 @@ const getAllBlogs = async (req, res) => {
         const formattedBlogs = blogs.map(blog => {
             const blogObj = blog.toObject();
             if (blogObj.imageUrl) {
-                // Make sure imageUrl starts with http:// or https:// or /
-                if (!blogObj.imageUrl.startsWith('http://') && !blogObj.imageUrl.startsWith('https://') && !blogObj.imageUrl.startsWith('/')) {
-                    blogObj.imageUrl = `/${blogObj.imageUrl}`;
-                }
+                // Use placeholder for missing images on Render
+                blogObj.imageUrl = 'https://placehold.co/400x250?text=Blog+Image';
             }
             return blogObj;
         });
@@ -44,12 +42,9 @@ const getBlogbyId = async (req, res) => {
       return res.status(404).json({ message: 'Blog not found' });
     }
     
-    // Ensure imageUrl has the full server URL if it exists
+    // Use placeholder for missing images on Render
     if (blog.imageUrl) {
-      // Make sure imageUrl starts with http:// or https:// or /
-      if (!blog.imageUrl.startsWith('http://') && !blog.imageUrl.startsWith('https://') && !blog.imageUrl.startsWith('/')) {
-        blog.imageUrl = `/${blog.imageUrl}`;
-      }
+      blog.imageUrl = 'https://placehold.co/400x250?text=Blog+Image';
     }
     
     res.status(200).json(blog);
