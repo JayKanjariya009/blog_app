@@ -1,4 +1,7 @@
 const Blog = require('../models/Blog');
+const { uploadToImgBB } = require('../utils/imgbbUpload');
+const fs = require('fs');
+const path = require('path');
 
 const getAllBlogs = async (req, res) => {
     try {
@@ -9,17 +12,7 @@ const getAllBlogs = async (req, res) => {
                 select: 'username'
             });
             
-        // Ensure all imageUrls have the correct format
-        const formattedBlogs = blogs.map(blog => {
-            const blogObj = blog.toObject();
-            if (blogObj.imageUrl) {
-                // Use placeholder for missing images on Render
-                blogObj.imageUrl = 'https://placehold.co/400x250?text=Blog+Image';
-            }
-            return blogObj;
-        });
-        
-        res.status(200).json(formattedBlogs);
+        res.status(200).json(blogs);
     } catch (error) {
         console.log("Error getting all blogs", error);
         res.status(500).json({
@@ -42,10 +35,7 @@ const getBlogbyId = async (req, res) => {
       return res.status(404).json({ message: 'Blog not found' });
     }
     
-    // Use placeholder for missing images on Render
-    if (blog.imageUrl) {
-      blog.imageUrl = 'https://placehold.co/400x250?text=Blog+Image';
-    }
+
     
     res.status(200).json(blog);
   } catch (error) {
@@ -59,10 +49,18 @@ const { v4: uuidv4 } = require('uuid'); // install with: npm i uuid
 const createBlog = async (req, res) => {
     try {
         const { title, content } = req.body;
-        const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-        const author = req.user.id; // Get author ID from authenticated user
-
-        const blogId = uuidv4(); // or use Date.now().toString() for simple IDs
+        let imageUrl = null;
+        
+        if (req.file) {
+            const imgbbUrl = await uploadToImgBB(req.file.path, process.env.IMGBB_API_KEY);
+            imageUrl = imgbbUrl;
+            
+            // Delete local file after upload
+            fs.unlinkSync(req.file.path);
+        }
+        
+        const author = req.user.id;
+        const blogId = uuidv4();
 
         const newBlog = await Blog.create({ 
             blogId, 
@@ -93,7 +91,11 @@ const updateBlog = async (req, res) => {
         const updateData = { title, content };
 
         if (req.file) {
-            updateData.imageUrl = `/uploads/${req.file.filename}`;
+            const imgbbUrl = await uploadToImgBB(req.file.path, process.env.IMGBB_API_KEY);
+            updateData.imageUrl = imgbbUrl;
+            
+            // Delete local file after upload
+            fs.unlinkSync(req.file.path);
         }
 
         // First try to find by blogId

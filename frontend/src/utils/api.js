@@ -25,18 +25,9 @@ api.interceptors.request.use(
 // utils/api.js
 export const constructImageUrl = (path) => {
   if (!path) return null;
-
-  // If already a full URL, just return it
-  if (path.startsWith("http://") || path.startsWith("https://")) {
-    return path;
-  }
-
-  // Ensure we always have a leading slash
-  if (!path.startsWith("/")) {
-    path = `/${path}`;
-  }
-
-  return `${API_ORIGIN}${path}`;
+  
+  // ImgBB returns full URLs, so just return them directly
+  return path;
 };
 
 export const fetchAllBlogs = async () => {
