@@ -34,15 +34,17 @@ const RegisterPage = () => {
     
     try {
       const result = await register(username, email, password);
+      console.log('Registration result:', result);
       
       if (result.success) {
         navigate('/verify-otp', { state: { userId: result.userId } });
       } else {
+        console.error('Registration failed:', result);
         setError(result.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
       console.error('Registration error:', err);
-      setError('An unexpected error occurred. Please try again.');
+      setError(err.message || 'An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -99,6 +101,7 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
+            autoComplete="new-password"
           />
         </div>
         
@@ -112,6 +115,7 @@ const RegisterPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            autoComplete="new-password"
           />
         </div>
         

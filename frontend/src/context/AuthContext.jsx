@@ -58,17 +58,19 @@ export const AuthProvider = ({ children }) => {
   const register = async (username, email, password) => {
     try {
       const response = await registerUser(username, email, password);
+      console.log('API response:', response);
       
       if (response.success) {
         return { success: true, userId: response.userId };
       } else {
+        console.error('Registration API error:', response);
         return { success: false, message: response.message || 'Registration failed' };
       }
     } catch (error) {
       console.error('Registration error:', error);
       return { 
         success: false, 
-        message: error.error || error.message || 'An error occurred during registration' 
+        message: error.message || error.error || 'An error occurred during registration' 
       };
     }
   };
