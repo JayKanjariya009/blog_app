@@ -37,7 +37,7 @@ const LoginPage = () => {
       } else if (result.requiresVerification) {
         navigate('/verify-otp', { state: { userId: result.userId } });
       } else {
-        setError(result.message || 'Login failed. Please check your credentials.');
+        setError(result.error || result.message || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       console.error('Login error:', err);

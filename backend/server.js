@@ -23,8 +23,16 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
   })
 );
 
@@ -42,9 +50,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Should be true in production with HTTPS
+      secure: process.env.NODE_ENV === 'production', // True in production with HTTPS
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
     },
   })
 );
@@ -80,8 +89,13 @@ app.get("/test-uploads", (req, res) => {
   }
 });
 
+// Error handling middleware
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
+
 // Start Server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

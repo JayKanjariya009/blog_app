@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { api } from '../utils/api';
 import SEOHead, { SEO_CONFIGS } from '../components/common/SEOHead';
 
 const RegisterPage = () => {
@@ -10,6 +11,10 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [userId, setUserId] = useState('');
+  const [otpLoading, setOtpLoading] = useState(false);
   
   const { register } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -37,7 +42,9 @@ const RegisterPage = () => {
       console.log('Registration result:', result);
       
       if (result.success) {
-        navigate('/verify-otp', { state: { userId: result.userId } });
+        setUserId(result.userId);
+        setShowOTP(true);
+        setError('');
       } else {
         console.error('Registration failed:', result);
         setError(result.message || 'Registration failed. Please try again.');
@@ -50,11 +57,31 @@ const RegisterPage = () => {
     }
   };
 
+  const handleOTPSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setOtpLoading(true);
+    
+    try {
+      const response = await api.post('/auth/verify-otp', { userId, otp });
+      
+      if (response.data.success) {
+        navigate('/login', { state: { message: 'Email verified successfully! Please log in.' } });
+      } else {
+        setError(response.data.message || 'OTP verification failed.');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred during verification.');
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
   return (
     <>
       <SEOHead {...SEO_CONFIGS.register} />
       <div className="max-w-md mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">Create an Account</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">{showOTP ? 'Verify Your Email' : 'Create an Account'}</h1>
       
       {error && (
         <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
@@ -62,7 +89,40 @@ const RegisterPage = () => {
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {showOTP ? (
+        <>
+          <div className="bg-blue-50 p-4 rounded-lg mb-6">
+            <p className="text-blue-800 text-sm">
+              We've sent a 6-digit verification code to {email}. Please enter it below.
+            </p>
+          </div>
+          
+          <form onSubmit={handleOTPSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="otp" className="block text-gray-700 mb-2">Verification Code</label>
+              <input
+                type="text"
+                id="otp"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-2xl tracking-widest"
+                placeholder="000000"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                maxLength={6}
+                required
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium"
+              disabled={otpLoading || otp.length !== 6}
+            >
+              {otpLoading ? 'Verifying...' : 'Verify Email'}
+            </button>
+          </form>
+        </>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="username" className="block text-gray-700 mb-2">Username</label>
           <input
@@ -127,6 +187,7 @@ const RegisterPage = () => {
           {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
+      )}
       
       <div className="mt-8 text-center">
         <p className="text-gray-600">

@@ -25,12 +25,11 @@ const ThemeToggle = () => {
         isDarkMode ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
       }`}>
         <div className="absolute inset-1 bg-slate-800 rounded-full flex items-center justify-center relative overflow-hidden">
-          {/* Moon crescent */}
-          <div className="absolute inset-0 bg-slate-600 rounded-full object-contain "></div>
-          <div className="absolute top-1 right-1 w-6 h-6 bg-slate-900 rounded-full"></div>
-          <svg className="w-4 h-4 text-slate-300 relative z-10" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-          </svg>
+          {/* Moon crescent shape */}
+          <div className="relative w-6 h-6">
+            <div className="absolute inset-0 bg-slate-300 rounded-full"></div>
+            <div className="absolute top-0 right-0 w-5 h-5 bg-slate-800 rounded-full translate-x-1"></div>
+          </div>
         </div>
       </div>
     </button>
