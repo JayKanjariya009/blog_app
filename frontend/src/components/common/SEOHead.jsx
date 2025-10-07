@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 const SEOHead = ({
-  title = 'BlogApp - Share Your Stories',
+  title = 'WeebTsuki - Share Your Stories',
   description = 'Discover insightful articles, stories, and perspectives from our community of passionate writers.',
   keywords = 'blog, articles, stories, writing, community',
-  author = 'BlogApp',
+  author = 'WeebTsuki',
   image = '/og-image.jpg',
   url = window.location.href,
   type = 'website',
@@ -46,7 +46,7 @@ const SEOHead = ({
     updateMetaTag('og:image', image, true);
     updateMetaTag('og:url', url, true);
     updateMetaTag('og:type', type, true);
-    updateMetaTag('og:site_name', 'BlogApp', true);
+    updateMetaTag('og:site_name', 'WeebTsuki', true);
 
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
@@ -146,25 +146,56 @@ export const useSEO = (seoData) => {
 // Predefined SEO configurations
 export const SEO_CONFIGS = {
   home: {
-    title: 'BlogApp - Share Your Stories & Discover Amazing Content',
+    title: 'WeebTsuki - Share Your Stories & Discover Amazing Content',
     description: 'Join our community of passionate writers and readers. Share your stories, discover amazing content, and connect with like-minded individuals.',
     keywords: 'blog, writing, stories, articles, community, share, discover'
   },
   blogs: {
-    title: 'All Blogs - BlogApp',
+    title: 'All Blogs - WeebTsuki',
     description: 'Explore our collection of amazing blog posts from talented writers around the world.',
     keywords: 'blogs, articles, posts, writing, stories, collection'
   },
   login: {
-    title: 'Login - BlogApp',
-    description: 'Login to your BlogApp account to start sharing your stories and engaging with the community.',
+    title: 'Login - WeebTsuki',
+    description: 'Login to your WeebTsuki account to start sharing your stories and engaging with the community.',
     keywords: 'login, signin, account, access'
   },
   register: {
-    title: 'Register - BlogApp',
-    description: 'Join BlogApp today and start sharing your stories with our amazing community of writers and readers.',
+    title: 'Register - WeebTsuki',
+    description: 'Join WeebTsuki today and start sharing your stories with our amazing community of writers and readers.',
     keywords: 'register, signup, join, account, community'
+  },
+  admin: {
+    title: 'Admin Dashboard - WeebTsuki',
+    description: 'Manage your WeebTsuki blog content and users.',
+    keywords: 'admin, dashboard, manage, content'
+  },
+  createBlog: {
+    title: 'Create New Blog - WeebTsuki',
+    description: 'Create and publish a new blog post on WeebTsuki.',
+    keywords: 'create, blog, write, publish'
+  },
+  editBlog: {
+    title: 'Edit Blog - WeebTsuki',
+    description: 'Edit your blog post on WeebTsuki.',
+    keywords: 'edit, blog, update, modify'
+  },
+  notFound: {
+    title: 'Page Not Found - WeebTsuki',
+    description: 'The page you are looking for does not exist.',
+    keywords: '404, not found, error'
   }
 };
+
+// Helper function to generate dynamic blog title
+export const getBlogSEO = (blog) => ({
+  title: `${blog.title} - WeebTsuki`,
+  description: blog.description || blog.content?.replace(/<[^>]*>/g, '').substring(0, 160) || 'Read this amazing blog post on WeebTsuki.',
+  keywords: `${blog.title}, blog, story, ${blog.category || ''}, ${blog.genres?.join(', ') || ''}`,
+  type: 'article',
+  publishedTime: blog.createdAt,
+  modifiedTime: blog.updatedAt,
+  author: blog.author?.username || 'WeebTsuki Author'
+});
 
 export default SEOHead;

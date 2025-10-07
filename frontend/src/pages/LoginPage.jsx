@@ -1,11 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import SEOHead, { SEO_CONFIGS } from '../components/common/SEOHead';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   
   const { login } = useContext(AuthContext);
@@ -14,6 +16,13 @@ const LoginPage = () => {
 
   // Get the redirect path from location state or default to home page
   const from = location.state?.from?.pathname || '/';
+  const message = location.state?.message;
+
+  useEffect(() => {
+    if (message) {
+      setSuccess(message);
+    }
+  }, [message]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +34,8 @@ const LoginPage = () => {
       
       if (result.success) {
         navigate(from, { replace: true });
+      } else if (result.requiresVerification) {
+        navigate('/verify-otp', { state: { userId: result.userId } });
       } else {
         setError(result.message || 'Login failed. Please check your credentials.');
       }
@@ -37,12 +48,20 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <>
+      <SEOHead {...SEO_CONFIGS.login} />
+      <div className="max-w-md mx-auto">
       <h1 className="text-3xl font-bold text-center mb-8">Login to Your Account</h1>
       
       {error && (
         <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
           {error}
+        </div>
+      )}
+      
+      {success && (
+        <div className="bg-green-100 text-green-700 p-4 rounded-lg mb-6">
+          {success}
         </div>
       )}
       
@@ -82,6 +101,12 @@ const LoginPage = () => {
         </button>
       </form>
       
+      <div className="mt-6 text-center">
+        <Link to="/forgot-password" className="text-blue-600 hover:text-blue-800 text-sm">
+          Forgot your password?
+        </Link>
+      </div>
+      
       <div className="mt-8 text-center">
         <p className="text-gray-600">
           Don't have an account?{' '}
@@ -90,7 +115,8 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

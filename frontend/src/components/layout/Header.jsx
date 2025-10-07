@@ -20,16 +20,17 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 dark:from-gray-800 dark:via-gray-900 dark:to-black text-white shadow-lg backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
-      <div className="container-responsive py-3 sm:py-4">
+    <header className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 dark:from-gray-800 dark:via-gray-900 dark:to-black text-white shadow-lg backdrop-blur-sm border-b border-white/10 sticky top-0 z-50 safe-area-inset">
+      <div className="container-responsive py-2 sm:py-3 md:py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent hover:scale-105 transform transition-all duration-300 will-change-transform"
-            aria-label="BlogApp Home"
+            className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent hover:scale-105 transform transition-all duration-300 will-change-transform touch-manipulation"
+            aria-label="WeebTsuki Home"
           >
-            ✨ BlogApp
+            <span className="block sm:hidden">✨ WT</span>
+            <span className="hidden sm:block">✨ WeebTsuki</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -66,7 +67,7 @@ const Header = () => {
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
                         {(user.username || user.email).charAt(0).toUpperCase()}
                       </div>
-                      <span className="mr-2 font-medium text-sm truncate max-w-24">
+                      <span className="mr-2 font-medium text-sm truncate max-w-16 sm:max-w-24">
                         {user.username || user.email}
                       </span>
                       {user.role === 'admin' && (
@@ -87,6 +88,15 @@ const Header = () => {
                       </Link>
                     </li>
                   )}
+                  <li>
+                    <Link 
+                      to="/change-password" 
+                      className="bg-gradient-to-r from-orange-500 to-yellow-600 hover:from-orange-600 hover:to-yellow-700 text-white px-4 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm font-medium will-change-transform"
+                      aria-label="Change Password"
+                    >
+                      Change Password
+                    </Link>
+                  </li>
                   <li>
                     <button 
                       onClick={handleLogout}
@@ -126,7 +136,7 @@ const Header = () => {
             <ThemeToggle />
             <button
               onClick={toggleMobileMenu}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
+              className="p-3 rounded-lg hover:bg-white/10 transition-colors duration-300 touch-manipulation min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Toggle mobile menu"
               aria-expanded={isMobileMenuOpen}
             >
@@ -144,11 +154,11 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <nav className="lg:hidden mt-4 pb-4 border-t border-white/20 animate-slide-up" aria-label="Mobile navigation">
-            <ul className="flex flex-col space-y-4 pt-4">
+            <ul className="flex flex-col pt-4">
               <li>
                 <Link 
                   to="/" 
-                  className="block hover:text-blue-200 transition-colors duration-300 font-medium"
+                  className="mobile-nav-item block hover:text-blue-200 transition-colors duration-300 font-medium touch-manipulation"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
@@ -157,7 +167,7 @@ const Header = () => {
               <li>
                 <Link 
                   to="/blogs" 
-                  className="block hover:text-blue-200 transition-colors duration-300 font-medium"
+                  className="mobile-nav-item block hover:text-blue-200 transition-colors duration-300 font-medium touch-manipulation"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Blogs
@@ -166,39 +176,48 @@ const Header = () => {
               
               {user ? (
                 <>
-                  <li className="flex items-center">
+                  <li className="mobile-nav-item">
                     <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         {(user.username || user.email).charAt(0).toUpperCase()}
                       </div>
-                      <span className="mr-2 font-medium">
+                      <span className="mr-2 font-medium text-sm truncate max-w-32">
                         {user.username || user.email}
                       </span>
                       {user.role === 'admin' && (
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-xs px-2 py-1 rounded-full text-black font-semibold ml-2">
+                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-xs px-2 py-1 rounded-full text-black font-semibold ml-2 flex-shrink-0">
                           Admin
                         </span>
                       )}
                     </div>
                   </li>
                   {user.role === 'admin' && (
-                    <li>
+                    <li className="mobile-nav-item">
                       <Link 
                         to="/admin/dashboard" 
-                        className="block text-center bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                        className="block text-center bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-full transition-all duration-300 touch-manipulation min-h-[44px] flex items-center justify-center"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Dashboard
                       </Link>
                     </li>
                   )}
-                  <li>
+                  <li className="mobile-nav-item">
+                    <Link 
+                      to="/change-password" 
+                      className="block text-center bg-gradient-to-r from-orange-500 to-yellow-600 hover:from-orange-600 hover:to-yellow-700 text-white px-6 py-3 rounded-full transition-all duration-300 touch-manipulation min-h-[44px] flex items-center justify-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Change Password
+                    </Link>
+                  </li>
+                  <li className="mobile-nav-item">
                     <button 
                       onClick={() => {
                         handleLogout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full text-center bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                      className="w-full text-center bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white px-6 py-3 rounded-full transition-all duration-300 touch-manipulation min-h-[44px] flex items-center justify-center"
                     >
                       Logout
                     </button>
@@ -209,16 +228,16 @@ const Header = () => {
                   <li>
                     <Link 
                       to="/login" 
-                      className="block hover:text-blue-200 transition-colors duration-300"
+                      className="mobile-nav-item block hover:text-blue-200 transition-colors duration-300 touch-manipulation"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Login
                     </Link>
                   </li>
-                  <li>
+                  <li className="mobile-nav-item">
                     <Link 
                       to="/register" 
-                      className="block text-center bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                      className="block text-center bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-full transition-all duration-300 touch-manipulation min-h-[44px] flex items-center justify-center"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Register

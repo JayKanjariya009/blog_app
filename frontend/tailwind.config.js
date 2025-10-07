@@ -23,7 +23,16 @@ export default {
       },
       screens: {
         'xs': '475px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
         '3xl': '1600px',
+        // Custom breakpoints for better mobile control
+        'mobile': {'max': '767px'},
+        'tablet': {'min': '768px', 'max': '1023px'},
+        'desktop': {'min': '1024px'},
       },
       spacing: {
         '18': '4.5rem',

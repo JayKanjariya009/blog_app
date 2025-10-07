@@ -12,13 +12,29 @@ const api = axios.create({
 // Add a request interceptor to include the token in all requests
 api.interceptors.request.use(
   (config) => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (user.token) {
-      config.headers.Authorization = `Bearer ${user.token}`;
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    } catch (error) {
+      console.warn('Invalid user data in localStorage');
+      localStorage.removeItem('user');
     }
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+// Add response interceptor to handle authentication redirects
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
 );
 
 // Blog API functions
@@ -30,12 +46,44 @@ export const constructImageUrl = (path) => {
   return path;
 };
 
-export const fetchAllBlogs = async () => {
+export const fetchAllBlogs = async (params = {}) => {
   try {
-    const response = await api.get("/blogs");
+    const response = await api.get("/blogs", { params });
     return response.data;
   } catch (error) {
     console.error("Error fetching blogs:", error);
+    throw error;
+  }
+};
+
+export const fetchHomeSections = async (category = 'All') => {
+  try {
+    const response = await api.get("/blogs/home/sections", { params: { category } });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching home sections:", error);
+    throw error;
+  }
+};
+
+
+
+export const rateBlog = async (blogId, rating) => {
+  try {
+    const response = await api.post(`/blogs/${blogId}/rate`, { rating });
+    return response.data;
+  } catch (error) {
+    console.error("Error rating blog:", error);
+    throw error;
+  }
+};
+
+export const updateEpisodesChapters = async (blogId, data) => {
+  try {
+    const response = await api.patch(`/blogs/${blogId}/episodes-chapters`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating episodes/chapters:", error);
     throw error;
   }
 };
@@ -55,6 +103,7 @@ export const createBlog = async (blogData) => {
     const formData = new FormData();
     formData.append("title", blogData.title);
     formData.append("content", blogData.content);
+    formData.append("genre", blogData.genre);
 
     if (blogData.image) {
       formData.append("image", blogData.image);
@@ -78,6 +127,7 @@ export const updateBlog = async (id, blogData) => {
     const formData = new FormData();
     formData.append("title", blogData.title);
     formData.append("content", blogData.content);
+    formData.append("genre", blogData.genre);
 
     if (blogData.image) {
       formData.append("image", blogData.image);
@@ -162,4 +212,5 @@ export const deleteComment = async (commentId) => {
   }
 };
 
+export { api };
 export default api;

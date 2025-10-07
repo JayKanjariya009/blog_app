@@ -2,4 +2,169 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles can be added below */
+/* Mobile-first responsive utilities */
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:scale-105:hover {
+    transform: none;
+  }
+  
+  .hover\:-translate-y-2:hover {
+    transform: none;
+  }
+  
+  .hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
+  
+  /* Increase touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent horizontal scroll */
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better mobile text sizing */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .text-xs { font-size: 0.75rem; }
+  .text-sm { font-size: 0.875rem; }
+  .text-base { font-size: 1rem; }
+  .text-lg { font-size: 1.125rem; }
+  .text-xl { font-size: 1.25rem; }
+  .text-2xl { font-size: 1.5rem; }
+  .text-3xl { font-size: 1.875rem; }
+}
+
+/* Mobile-optimized spacing */
+@media (max-width: 640px) {
+  .container-responsive {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Improved mobile cards */
+@media (max-width: 768px) {
+  .blog-card {
+    margin-bottom: 1rem;
+  }
+  
+  .blog-card-image {
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 1024px) {
+  .mobile-nav-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-nav-item:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Responsive grid improvements */
+.responsive-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Safe area for devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Improved focus states for mobile */
+@media (max-width: 768px) {
+  button:focus,
+  a:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* Swiper customizations */
+.swiper {
+  padding-bottom: 2rem;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #3b82f6;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet {
+  background: #3b82f6;
+  opacity: 0.3;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}
+
+.dark .swiper-button-next,
+.dark .swiper-button-prev {
+  background: rgba(31, 41, 55, 0.9);
+  color: #60a5fa;
+}

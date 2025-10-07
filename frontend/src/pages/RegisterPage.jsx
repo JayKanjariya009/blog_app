@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import SEOHead, { SEO_CONFIGS } from '../components/common/SEOHead';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -35,7 +36,7 @@ const RegisterPage = () => {
       const result = await register(username, email, password);
       
       if (result.success) {
-        navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+        navigate('/verify-otp', { state: { userId: result.userId } });
       } else {
         setError(result.message || 'Registration failed. Please try again.');
       }
@@ -48,7 +49,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <>
+      <SEOHead {...SEO_CONFIGS.register} />
+      <div className="max-w-md mx-auto">
       <h1 className="text-3xl font-bold text-center mb-8">Create an Account</h1>
       
       {error && (
@@ -129,7 +132,8 @@ const RegisterPage = () => {
           </Link>
         </p>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

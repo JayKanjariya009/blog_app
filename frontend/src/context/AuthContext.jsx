@@ -11,7 +11,12 @@ export const AuthProvider = ({ children }) => {
     // Check if user is logged in from localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.warn('Invalid user data in localStorage');
+        localStorage.removeItem('user');
+      }
     }
     setLoading(false);
   }, []);
@@ -31,9 +36,15 @@ export const AuthProvider = ({ children }) => {
         
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token', response.token);
         return { success: true };
       } else {
-        return { success: false, message: response.message || 'Login failed' };
+        return { 
+          success: false, 
+          message: response.message || 'Login failed',
+          requiresVerification: response.requiresVerification,
+          userId: response.userId
+        };
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -49,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       const response = await registerUser(username, email, password);
       
       if (response.success) {
-        return { success: true };
+        return { success: true, userId: response.userId };
       } else {
         return { success: false, message: response.message || 'Registration failed' };
       }
@@ -65,6 +76,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const isAdmin = () => {

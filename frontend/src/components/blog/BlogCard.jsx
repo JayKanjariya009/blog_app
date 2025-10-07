@@ -35,13 +35,13 @@ const BlogCard = ({ blog }) => {
   };
 
   return (
-    <article className="blog-card group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-gray-100 dark:border-gray-700 will-change-transform gpu-accelerated">
+    <article className="blog-card group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl mobile:hover:shadow-lg hover:-translate-y-2 mobile:hover:-translate-y-0 border border-gray-100 dark:border-gray-700 will-change-transform gpu-accelerated touch-manipulation">
       {/* Image with overlay */}
       <div className="relative bg-gray-100 dark:bg-gray-700">
         <img 
           src={getImageUrl(blog.imageUrl)} 
           alt={blog.title || 'Blog post image'} 
-          className="blog-card-image"
+          className="blog-card-image w-full h-48 sm:h-56 md:h-64 object-cover"
           loading="lazy"
           onError={(e) => {
             e.target.src = defaultImage;
@@ -60,7 +60,7 @@ const BlogCard = ({ blog }) => {
         </div>
       </div>
       
-      <div className="p-4 sm:p-6">
+      <div className="p-3 sm:p-4 md:p-6">
         {/* Title */}
         <h3 className="text-lg sm:text-xl font-bold mb-3 text-theme line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
           {blog.title}
@@ -68,7 +68,7 @@ const BlogCard = ({ blog }) => {
         
         {/* Content preview */}
         <p className="text-theme-secondary mb-4 line-clamp-3 leading-relaxed text-sm sm:text-base">
-          {truncateContent(blog.content)}
+          {blog.description || truncateContent(blog.content) || 'No description available.'}
         </p>
         
         {/* Author info */}
@@ -94,8 +94,9 @@ const BlogCard = ({ blog }) => {
         <div className="flex justify-end">
           {user ? (
             <Link 
-              to={`/blog/${blog.blogId || blog._id}`} 
-              className="group/btn bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center text-sm font-medium"
+              to={`/blog/${blog.blogId || blog._id}`}
+              state={{ from: window.location.pathname }}
+              className="group/btn bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform mobile:hover:shadow-lg mobile:hover:transform-none hover:-translate-y-0.5 flex items-center text-sm font-medium touch-manipulation min-h-[44px]"
               aria-label={`Read more about ${blog.title}`}
             >
               Read More
@@ -106,7 +107,7 @@ const BlogCard = ({ blog }) => {
           ) : (
             <button
               onClick={handleReadMore}
-              className="group/btn bg-gradient-to-r from-gray-500 to-gray-600 hover:from-blue-600 hover:to-purple-600 text-white px-4 sm:px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center text-sm font-medium"
+              className="group/btn bg-gradient-to-r from-gray-500 to-gray-600 hover:from-blue-600 hover:to-purple-600 text-white px-4 sm:px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform mobile:hover:shadow-lg mobile:hover:transform-none hover:-translate-y-0.5 flex items-center text-sm font-medium touch-manipulation min-h-[44px]"
               aria-label="Login to read this article"
             >
               🔒 Login to Read
