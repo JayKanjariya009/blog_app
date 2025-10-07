@@ -31,7 +31,12 @@ router.post('/register', async (req, res) => {
             isEmailVerified: false
         });
 
-        await sendOTPEmail(email, otp);
+        try {
+            await sendOTPEmail(email, otp);
+        } catch (emailError) {
+            console.log('❌ Email sending failed:', emailError);
+            // Continue with registration even if email fails
+        }
 
         res.status(201).json({
             success: true,
@@ -94,7 +99,11 @@ router.post('/resend-otp', async (req, res) => {
         user.otpExpires = otpExpires;
         await user.save();
 
-        await sendOTPEmail(user.email, otp);
+        try {
+            await sendOTPEmail(user.email, otp);
+        } catch (emailError) {
+            console.log('❌ Email sending failed:', emailError);
+        }
 
         res.json({
             success: true,
@@ -178,7 +187,11 @@ router.post('/forgot-password', async (req, res) => {
         user.password = hash;
         await user.save();
 
-        await sendNewPasswordEmail(email, newPassword);
+        try {
+            await sendNewPasswordEmail(email, newPassword);
+        } catch (emailError) {
+            console.log('❌ Email sending failed:', emailError);
+        }
 
         res.json({
             success: true,
@@ -239,7 +252,11 @@ router.post('/change-password', verifyToken, async (req, res) => {
             user.password = hash;
             await user.save();
 
-            await sendNewPasswordEmail(user.email, randomPassword);
+            try {
+                await sendNewPasswordEmail(user.email, randomPassword);
+            } catch (emailError) {
+                console.log('❌ Email sending failed:', emailError);
+            }
 
             res.json({
                 success: true,
