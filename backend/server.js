@@ -6,6 +6,19 @@ const path = require("path");
 const crypto = require("crypto");
 require("dotenv").config();
 
+// Validate required environment variables
+if (!process.env.JWT_SECRET) {
+  console.error('❌ JWT_SECRET environment variable is required');
+  process.exit(1);
+}
+
+if (!process.env.SESSION_SECRET) {
+  console.error('❌ SESSION_SECRET environment variable is required');
+  process.exit(1);
+}
+
+const app = express();
+
 // Rate limiting
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
@@ -29,19 +42,6 @@ app.use(helmet({
     },
   },
 }));
-
-// Validate required environment variables
-if (!process.env.JWT_SECRET) {
-  console.error('❌ JWT_SECRET environment variable is required');
-  process.exit(1);
-}
-
-if (!process.env.SESSION_SECRET) {
-  console.error('❌ SESSION_SECRET environment variable is required');
-  process.exit(1);
-}
-
-const app = express();
 
 // Database Connection
 const connectdb = require("./db/connectDb");
