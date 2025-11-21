@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
+import { trackPageView } from './utils/analytics';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthGuard from './components/auth/AuthGuard';
@@ -31,12 +32,24 @@ const PageLoadingFallback = () => (
   </div>
 );
 
+// Component to track page views
+function PageTracker() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+  
+  return null;
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
           <Router>
+            <PageTracker />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
               <Suspense fallback={<PageLoadingFallback />}>
                 <Routes>
