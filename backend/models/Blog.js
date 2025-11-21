@@ -10,10 +10,12 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    maxlength: 200
   },
   content: {
     type: String,
     required: true,
+    maxlength: 50000
   },
   imageUrl: {
     type: String,

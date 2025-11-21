@@ -107,7 +107,13 @@ const createBlog = async (req, res) => {
         if (req.file) {
             const imgbbUrl = await uploadToImgBB(req.file.path, process.env.IMGBB_API_KEY);
             imageUrl = imgbbUrl;
-            fs.unlinkSync(req.file.path);
+            
+            // Validate file path to prevent path traversal
+            const uploadsDir = path.resolve(__dirname, '../uploads');
+            const filePath = path.resolve(req.file.path);
+            if (filePath.startsWith(uploadsDir)) {
+                fs.unlinkSync(filePath);
+            }
         }
         
         const author = req.user.id;
@@ -168,7 +174,13 @@ const updateBlog = async (req, res) => {
         if (req.file) {
             const imgbbUrl = await uploadToImgBB(req.file.path, process.env.IMGBB_API_KEY);
             updateData.imageUrl = imgbbUrl;
-            fs.unlinkSync(req.file.path);
+            
+            // Validate file path to prevent path traversal
+            const uploadsDir = path.resolve(__dirname, '../uploads');
+            const filePath = path.resolve(req.file.path);
+            if (filePath.startsWith(uploadsDir)) {
+                fs.unlinkSync(filePath);
+            }
         }
 
         let blog = await Blog.findOne({ blogId: req.params.id });

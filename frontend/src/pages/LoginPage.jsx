@@ -34,8 +34,6 @@ const LoginPage = () => {
       
       if (result.success) {
         navigate(from, { replace: true });
-      } else if (result.requiresVerification) {
-        navigate('/verify-otp', { state: { userId: result.userId } });
       } else {
         setError(result.error || result.message || 'Login failed. Please check your credentials.');
       }
@@ -67,7 +65,7 @@ const LoginPage = () => {
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-gray-700 mb-2">Email Address</label>
+          <label htmlFor="email"  className="block text-gray-700 mb-2">Email Address</label>
           <input
             type="email"
             id="email"

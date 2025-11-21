@@ -3,10 +3,43 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
 const path = require("path");
+const crypto = require("crypto");
 require("dotenv").config();
 
-// Set default environment variables if not provided
-process.env.JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-for-jwt";
+// Rate limiting
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Security headers
+const helmet = require('helmet');
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+}));
+
+// Validate required environment variables
+if (!process.env.JWT_SECRET) {
+  console.error('❌ JWT_SECRET environment variable is required');
+  process.exit(1);
+}
+
+if (!process.env.SESSION_SECRET) {
+  console.error('❌ SESSION_SECRET environment variable is required');
+  process.exit(1);
+}
 
 const app = express();
 
@@ -36,8 +69,11 @@ app.use(
   })
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Apply rate limiting
+app.use(limiter);
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static Folder for Uploaded Images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -46,7 +82,7 @@ console.log(`Static files served from ${path.join(__dirname, 'uploads')}`);
 // Session Setup
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "yoursecretkey",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {

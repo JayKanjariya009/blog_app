@@ -27,8 +27,12 @@ const createAdmin = async () => {
         }
         
         // Hash password
+        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+        if (!process.env.ADMIN_PASSWORD) {
+            console.warn('WARNING: Using default admin password. Set ADMIN_PASSWORD environment variable for production.');
+        }
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('admin123', salt);
+        const hashedPassword = await bcrypt.hash(adminPassword, salt);
         
         // Create admin user
         const admin = new User({

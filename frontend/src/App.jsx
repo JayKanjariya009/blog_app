@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AuthGuard from './components/auth/AuthGuard';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import ErrorBoundary from './components/common/ErrorBoundary';
@@ -40,9 +41,21 @@ function App() {
               <Suspense fallback={<PageLoadingFallback />}>
                 <Routes>
                   <Route path="/" element={<Layout />}>
-                    <Route index element={<EnhancedHomePage />} />
-                    <Route path="blogs" element={<EnhancedBlogsPage />} />
-                    <Route path="blog/:id" element={<EnhancedBlogDetailPage />} />
+                    <Route index element={
+                      <AuthGuard>
+                        <EnhancedHomePage />
+                      </AuthGuard>
+                    } />
+                    <Route path="blogs" element={
+                      <AuthGuard requireAuth={true}>
+                        <EnhancedBlogsPage />
+                      </AuthGuard>
+                    } />
+                    <Route path="blog/:id" element={
+                      <AuthGuard requireAuth={true}>
+                        <EnhancedBlogDetailPage />
+                      </AuthGuard>
+                    } />
                     <Route path="register" element={<RegisterPage />} />
                     <Route path="login" element={<LoginPage />} />
                     <Route path="verify-otp" element={<VerifyOTPPage />} />

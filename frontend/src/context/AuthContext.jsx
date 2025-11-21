@@ -7,16 +7,38 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Check if token is expired
+  const isTokenExpired = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return true;
+    
+    try {
+      // Validate JWT structure
+      const parts = token.split('.');
+      if (parts.length !== 3) return true;
+      
+      const payload = JSON.parse(atob(parts[1]));
+      return payload.exp * 1000 < Date.now();
+    } catch {
+      return true;
+    }
+  };
+
   useEffect(() => {
     // Check if user is logged in from localStorage
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    if (storedUser && !isTokenExpired()) {
       try {
         setUser(JSON.parse(storedUser));
       } catch (error) {
         console.warn('Invalid user data in localStorage');
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
       }
+    } else if (storedUser && isTokenExpired()) {
+      // Clear expired data
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
     setLoading(false);
   }, []);
@@ -86,7 +108,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAdmin }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, isAdmin, isTokenExpired }}>
       {children}
     </AuthContext.Provider>
   );

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
-  const { user, loading, isAdmin } = useContext(AuthContext);
+  const { user, loading, isAdmin, isTokenExpired } = useContext(AuthContext);
   const location = useLocation();
 
   if (loading) {
@@ -14,8 +14,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     );
   }
 
-  if (!user) {
-    // Redirect to login if not authenticated
+  if (!user || isTokenExpired()) {
+    // Redirect to login if not authenticated or token expired
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

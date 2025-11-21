@@ -25,8 +25,8 @@ router.get('/top', getTopBlogs);
 // 📌 Public Route – Get home page sections
 router.get('/home/sections', getHomeSections);
 
-// 🛡️ Protected Route – Get blog by ID (requires login)
-router.get('/:id', verifyToken, getBlogbyId);
+// 📖 Public Route – Get blog by ID
+router.get('/:id', getBlogbyId);
 
 // 🛡️ Admin Only – Create a new blog with image upload
 router.post('/', verifyToken, isAdmin, upload.single('image'), createBlog);
